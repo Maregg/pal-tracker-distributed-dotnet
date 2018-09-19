@@ -45,7 +45,7 @@ namespace BacklogServer
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "API Gateway", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "Backlog Server", Version = "v1" });
                 //c.IncludeXmlComments($@"{System.AppDomain.CurrentDomain.BaseDirectory}/edu.gateway.api.xml");
                 c.DescribeAllEnumsAsStrings();
             });
