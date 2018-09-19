@@ -9,6 +9,7 @@ using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
 using Users;
 
 using Swashbuckle.AspNetCore.Swagger;
+using Pivotal.Discovery.Client;
 
 namespace RegistrationServer
 {
@@ -43,6 +44,8 @@ namespace RegistrationServer
                 //c.IncludeXmlComments($@"{System.AppDomain.CurrentDomain.BaseDirectory}/edu.gateway.api.xml");
                 c.DescribeAllEnumsAsStrings();
             });
+
+            services.AddDiscoveryClient(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +64,8 @@ namespace RegistrationServer
             });
 
             app.UseMvc();
+
+            app.UseDiscoveryClient();
         }
     }
 }

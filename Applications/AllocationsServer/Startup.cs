@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Pivotal.Discovery.Client;
 using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
-
+using Steeltoe.Common.Discovery;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace AllocationsServer
@@ -32,7 +33,8 @@ namespace AllocationsServer
 
             services.AddSingleton<IProjectClient>(sp =>
             {
-                var httpClient = new HttpClient
+                var handler = new DiscoveryHttpClientHandler(sp.GetService<IDiscoveryClient>());
+                var httpClient = new HttpClient(handler, false)
                 {
                     BaseAddress = new Uri(Configuration.GetValue<string>("REGISTRATION_SERVER_ENDPOINT"))
                 };
@@ -47,6 +49,8 @@ namespace AllocationsServer
                 //c.IncludeXmlComments($@"{System.AppDomain.CurrentDomain.BaseDirectory}/edu.gateway.api.xml");
                 c.DescribeAllEnumsAsStrings();
             });
+
+            services.AddDiscoveryClient(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +69,8 @@ namespace AllocationsServer
             });
 
             app.UseMvc();
+
+            app.UseDiscoveryClient();
         }
     }
 }
