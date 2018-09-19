@@ -27,7 +27,7 @@ namespace TimesheetsTest
             _gateway.Setup(g => g.Create(55432, 4765, DateTime.Parse("2015-05-17"), 8))
                 .Returns(new TimeEntryRecord(1234, 55432, 4765, DateTime.Parse("2015-05-17"), 8));
 
-            _client.Setup(c => c.Get(55432)).Returns(Task.FromResult(new ProjectInfo(true)));
+            _client.Setup(c => c.GetAsync(55432)).Returns(Task.FromResult(new ProjectInfo(true)));
 
             var response = _controller.Post(new TimeEntryInfo(-1, 55432, 4765, DateTime.Parse("2015-05-17"), 8, ""));
             var body = (TimeEntryInfo) ((ObjectResult) response).Value;
@@ -50,7 +50,7 @@ namespace TimesheetsTest
             _gateway.Setup(g => g.Create(55432, 4765, DateTime.Parse("2015-05-17"), 8))
                 .Returns(new TimeEntryRecord(1234, 55432, 4765, DateTime.Parse("2015-05-17"), 8));
 
-            _client.Setup(c => c.Get(55432)).Returns(Task.FromResult(new ProjectInfo(false)));
+            _client.Setup(c => c.GetAsync(55432)).Returns(Task.FromResult(new ProjectInfo(false)));
 
             var response = _controller.Post(new TimeEntryInfo(-1, 55432, 4765, DateTime.Parse("2015-05-17"), 8, ""));
 

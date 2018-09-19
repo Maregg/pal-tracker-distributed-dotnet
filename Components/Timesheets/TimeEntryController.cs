@@ -38,7 +38,7 @@ namespace Timesheets
 
         private bool ProjectIsActive(long projectId)
         {
-            var info = _client.Get(projectId);
+            var info = _client.GetAsync(projectId);
             return info.Result?.Active ?? false;
         }
     }

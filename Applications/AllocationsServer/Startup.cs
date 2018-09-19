@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
 using Pivotal.Discovery.Client;
 using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
 using Steeltoe.Common.Discovery;
 using Swashbuckle.AspNetCore.Swagger;
+using Steeltoe.CircuitBreaker.Hystrix;
 
 namespace AllocationsServer
 {
@@ -39,8 +41,11 @@ namespace AllocationsServer
                     BaseAddress = new Uri(Configuration.GetValue<string>("REGISTRATION_SERVER_ENDPOINT"))
                 };
 
-                return new ProjectClient(httpClient);
+                var logger = sp.GetService<ILogger<ProjectClient>>();
+                return new ProjectClient(httpClient, logger);
             });
+            
+            services.AddHystrixMetricsStream(Configuration);
             
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -71,6 +76,9 @@ namespace AllocationsServer
             app.UseMvc();
 
             app.UseDiscoveryClient();
+            
+            app.UseHystrixMetricsStream();
+            app.UseHystrixRequestContext();
         }
     }
 }

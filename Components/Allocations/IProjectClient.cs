@@ -4,6 +4,6 @@ namespace Allocations
 {
     public interface IProjectClient
     {
-        Task<ProjectInfo> Get(long projectId);
+        Task<ProjectInfo> GetAsync(long projectId);
     }
 }

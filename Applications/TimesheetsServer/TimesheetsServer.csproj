@@ -7,6 +7,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Pivotal.Discovery.ClientCore" Version="2.1.0" />
+    <PackageReference Include="RabbitMQ.Client" Version="5.1.0" />
+    <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Version="2.1.0" />
+    <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Version="2.1.0" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Version="2.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
     <ProjectReference Include="../../Components/Timesheets/Timesheets.csproj" />

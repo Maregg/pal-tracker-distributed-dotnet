@@ -24,7 +24,7 @@ namespace BacklogTest
         public void TestPost()
         {
             _gateway.Setup(g => g.Create(55432, "An epic story")).Returns(new StoryRecord(1234, 55432, "An epic story"));
-            _client.Setup(c => c.Get(55432)).Returns(Task.FromResult(new ProjectInfo(true)));
+            _client.Setup(c => c.GetAsync(55432)).Returns(Task.FromResult(new ProjectInfo(true)));
 
             var response = _controller.Post(new StoryInfo(-1, 55432, "An epic story", ""));
             var body = (StoryInfo) ((ObjectResult) response).Value;
@@ -41,7 +41,7 @@ namespace BacklogTest
         public void TestPost_InactiveProject()
         {
             _gateway.Setup(g => g.Create(55432, "An epic story")).Returns(new StoryRecord(1234, 55432, "An epic story"));
-            _client.Setup(c => c.Get(55432)).Returns(Task.FromResult(new ProjectInfo(false)));
+            _client.Setup(c => c.GetAsync(55432)).Returns(Task.FromResult(new ProjectInfo(false)));
 
             var response = _controller.Post(new StoryInfo(-1, 55432, "An epic story", ""));
 

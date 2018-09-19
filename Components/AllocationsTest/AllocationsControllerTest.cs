@@ -27,7 +27,7 @@ namespace AllocationsTest
             _gateway.Setup(g => g.Create(55432, 4765, DateTime.Parse("2014-05-16"), DateTime.Parse("2014-05-26")))
                 .Returns(new AllocationRecord(3, 55432, 4765, DateTime.Parse("2014-05-16"), DateTime.Parse("2014-05-26")));
 
-            _client.Setup(c => c.Get(55432)).Returns(Task.FromResult(new ProjectInfo(true)));
+            _client.Setup(c => c.GetAsync(55432)).Returns(Task.FromResult(new ProjectInfo(true)));
 
             var response = _controller.Post(new AllocationInfo(-1, 55432, 4765, DateTime.Parse("2014-05-16"), DateTime.Parse("2014-05-26"), ""));
             var body = (AllocationInfo) ((ObjectResult) response).Value;
@@ -55,7 +55,7 @@ namespace AllocationsTest
                 new AllocationRecord(755, 55432, 4766, DateTime.Parse("2015-05-17"), DateTime.Parse("2015-05-18"))
             });
 
-            _client.Setup(c => c.Get(55432)).Returns(Task.FromResult(new ProjectInfo(true)));
+            _client.Setup(c => c.GetAsync(55432)).Returns(Task.FromResult(new ProjectInfo(true)));
 
             var response = _controller.Get(55432);
             var body = (List<AllocationInfo>) ((ObjectResult) response).Value;
