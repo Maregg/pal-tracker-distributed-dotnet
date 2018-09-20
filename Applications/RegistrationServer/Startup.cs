@@ -10,6 +10,10 @@ using Users;
 
 using Swashbuckle.AspNetCore.Swagger;
 using Pivotal.Discovery.Client;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Steeltoe.Security.Authentication.CloudFoundry;
 
 namespace RegistrationServer
 {
@@ -26,7 +30,18 @@ namespace RegistrationServer
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(mvcOptions =>
+            {
+                if (!Configuration.GetValue("DISABLE_AUTH", false))
+                {
+                    // Set Authorized as default policy
+                    var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .RequireClaim("scope", "uaa.resource")
+                    .Build();
+                    mvcOptions.Filters.Add(new AuthorizeFilter(policy));
+                }
+            });
 
             services.AddDbContext<AccountContext>(options => options.UseMySql(Configuration));
             services.AddDbContext<ProjectContext>(options => options.UseMySql(Configuration));
@@ -46,6 +61,9 @@ namespace RegistrationServer
             });
 
             services.AddDiscoveryClient(Configuration);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                 .AddCloudFoundryJwtBearer(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

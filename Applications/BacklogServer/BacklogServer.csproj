@@ -11,6 +11,7 @@
     <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Version="2.1.0" />
     <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Version="2.1.0" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Version="2.1.0" />
+    <PackageReference Include="Steeltoe.Security.Authentication.CloudFoundryCore" Version="2.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
     <ProjectReference Include="../../Components/Backlog/Backlog.csproj" />
     <ProjectReference Include="../../Components/DefaultRoute/DefaultRoute.csproj" />
